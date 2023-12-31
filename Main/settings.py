@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'allauth',
     'allauth.account',
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {
@@ -56,7 +57,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     "DEFAULT_PAGINATION_CLASS":"rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": 100
+    "PAGE_SIZE": 100,
+    "DEFAULT_FILTER_BACKENDS": ['django_filters.rest_framework.DjangoFilterBackend']
 }
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -152,11 +154,11 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'smritymulmi23@gmail.com'
+EMAIL_HOST_PASSWORD = 'gphk pizz mjol ediu'
 
 # SITE_ID = 1
 # ACCOUNT_EMAIL_VERIFICATION = 'mandatory'

@@ -12,10 +12,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=CustomUser
         fields= ['id', 
-                         'username',
-                         'firstname',
-                         'lastname', 'phone_number', 'email',
-                          'products','products_input','total_price'
+                         'firstname','email',
+                         'lastname', 'phone_number',
+                          'products','products_input','total_price',
                            ]
     def create(self, validated_data):
         products_data = validated_data.pop('products_input',[ ])
@@ -28,17 +27,32 @@ class UserSerializer(serializers.ModelSerializer):
             print(f'Products Input: {products_data}')
         return obj
     
-class SignupSerializer(serializers.ModelSerializer):
+class RegisterSerializer(serializers.ModelSerializer):
+    password=serializers.CharField(max_length=68,min_length=6,write_only=True)
     class Meta:
         model=CustomUser
-        fields=['firstname','lastname','username','password','email']
-        extra_kwargs={'password':{'write_only':True}}
+        fields=['email','username','password','phone_number']
+    def validate(self,attrs):
+        email=attrs.get('email','')
+        username=attrs.get('username','')
+        phone_number=attrs.get('phone_number','')
+        if not username.isalnum():
+            raise serializers.ValidationError('the user name must only contain alphanumeric character')
+        return attrs
     
-    def create(self, validated_data):
-        user=CustomUser.objects.create_user(**validated_data)
-        return user
-
+    def create(self,validated_data):
+        return CustomUser.objects.create_user(**validated_data)
+        
+        
+       
 class ProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model=Products
         fields='__all__'
+
+class EmailVerificationSerializer(serializers.ModelSerializer):
+    token=serializers.CharField(max_length=55)
+
+    class Meta:
+        model=CustomUser
+        fields=['token']

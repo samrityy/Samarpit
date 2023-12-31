@@ -10,20 +10,14 @@ class Products(models.Model):
     name=models.CharField(max_length=10)
     
 class CustomUser(AbstractUser):
-    firstname=models.CharField(max_length=10,unique=True)
-
-    username=models.CharField(max_length=10,  null=True)
-    phone_number=models.CharField(max_length=100)
+    firstname=models.CharField(max_length=10,unique=False)
+    lastname=models.CharField(max_length=10,unique=False)
+    username=models.CharField(max_length=10)
+    phone_number=models.CharField(max_length=100,unique=True)
     email=models.EmailField(unique=True)
-    email_is_verified = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
     products = models.ManyToManyField(Products, blank=True)
     total_price=models.IntegerField(default=0)
-
-    username=None
-    phone_number=models.CharField(max_length=100)
-    email=models.EmailField(unique=True)
-    email_is_verified = models.BooleanField(default=False)
-    products=models.ForeignKey(Products,on_delete=models.SET_NULL, null=True)
 
     # products = ArrayField(models.CharField(max_length=15), null=True, blank=True)
     USERNAME_FIELD = 'email'
